@@ -1,16 +1,4 @@
 
-// import EngagementManager from './EngagementManager'
-
-
-// const App = () => {
-//   return (
-//     <div>
-//       <EngagementManager/>
-//     </div>
-//   )
-// }
-
-// export default App
 import { Routes, Route } from 'react-router-dom';
 import EngagementManager from './EngagementManager';
 import EngagementDetails from './EngagementDetails'; // Details page
