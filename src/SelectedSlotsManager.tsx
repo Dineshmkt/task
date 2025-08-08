@@ -62,10 +62,10 @@ const getPriorityColor = (priority) => {
       case 'Primary': return '';
       case 'Secondary': return '';
       case 'Tertiary': return '';
-      default: return '⭐';
+      default: return '@';
     }
   };
-  //🥇
+ 
 
   const formatDateTime = (slot) => {
  
