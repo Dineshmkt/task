@@ -252,26 +252,3 @@ const getPriorityColor = (priority) => {
 export default SelectedSlotsManager;
 
 
-
-
-  // const getPriorityColor = (priority) => {
-  //   switch (priority) {
-  //     case 'Primary': return 'bg-red-50 border-red-200 text-red-800';
-  //     case 'Secondary': return 'bg-yellow-50 border-yellow-200 text-yellow-800';
-  //     case 'Tertiary': return 'bg-green-50 border-green-200 text-green-800';
-  //     default: return 'bg-gray-50 border-gray-200 text-gray-800';
-  //   }
-  // };
-
-//   const getPriorityColor = (priority) => {
-//   switch (priority) {
-//     case 'Primary':
-//       return 'border-[#FCA5A5] text-[#B91C1C]'; 
-//     case 'Secondary':
-//       return 'border-[#FCD34D] text-[#92400E]';
-//     case 'Tertiary':
-//       return 'border-[#6EE7B7] text-[#065F46]'; 
-//     default:
-//       return 'border-gray-300 text-gray-800';
-//   }
-// };
