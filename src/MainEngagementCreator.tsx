@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Check, ChevronLeft, X } from 'lucide-react';
 import EngagementOverview from './EngagementOverview';
 import DateTime from './DateTime';
 
 const MainEngagementCreator = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [engagementId, setEngagementId] = useState(null); // Add state for engagement ID
+  const [engagementId, setEngagementId] = useState(null); 
   const [formData, setFormData] = useState({
     title: '',
     name: '',
@@ -16,7 +16,7 @@ const MainEngagementCreator = () => {
     timezone: 'ET'
   });
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field:any, value:any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -24,7 +24,7 @@ const MainEngagementCreator = () => {
   };
 
   // Modified to receive engagement data with ID
-  const handleNext = (engagementData = null) => {
+  const handleNext = (engagementData:any = null) => {
     if (currentStep === 1) {
       // If engagement data is provided (from EngagementOverview), store the ID
       if (engagementData) {

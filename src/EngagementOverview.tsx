@@ -1,14 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
-const EngagementOverview = ({ formData, onInputChange, onNext }) => {
+const EngagementOverview = ({ formData, onInputChange, onNext }:any) => {
   const [engagementId, setEngagementId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const MOCKAPI_URL = 'https://688f0331f21ab1769f87f43a.mockapi.io/engagements';
 
-  const testMockAPI = async () => {  // this function is use only for testing purpose 
+  const testMockAPI = async () => {  
     try {
       console.log('Testing MockAPI connection...');
       const response = await fetch(MOCKAPI_URL, {
@@ -32,6 +32,7 @@ const EngagementOverview = ({ formData, onInputChange, onNext }) => {
       return false;
     }
   };
+  console.log("test purpose",testMockAPI)
 
   useEffect(() => {
     const generateId = () => {
@@ -40,7 +41,7 @@ const EngagementOverview = ({ formData, onInputChange, onNext }) => {
     setEngagementId(generateId());
   }, []);
 
-  const saveToMockAPI = async (data) => {
+  const saveToMockAPI = async (data:any) => {
     try {
        const payload = {        
         engagementOwner: data.engagementOwner || '',
@@ -83,7 +84,7 @@ const EngagementOverview = ({ formData, onInputChange, onNext }) => {
       };
     } catch (error) {
       console.error('Full error details:', error);
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      if ((error as Error).name === 'TypeError' && (error as Error).message.includes('fetch')) {
         throw new Error('Network error - check your internet connection and MockAPI URL');
       }
       throw error;
@@ -111,12 +112,12 @@ const EngagementOverview = ({ formData, onInputChange, onNext }) => {
       
     } catch (error) {
       console.error('handleNext error:', error);
-      if (error.message.includes('404')) {
+      if ((error as Error).message.includes('404')) {
         setError('MockAPI resource "engagements" not found. Please create it in your MockAPI dashboard first.');
-      } else if (error.message.includes('400')) {
+      } else if ((error as Error).message.includes('400')) {
         setError('Invalid data format. Check console for details.');
       } else {
-        setError(error.message || 'Failed to save engagement. Please try again.');
+        setError((error as Error).message || 'Failed to save engagement. Please try again.');
       }
     } finally {
       setIsLoading(false);

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Shield, ShieldOff } from 'lucide-react';
 import { DateTime as LuxonDateTime } from 'luxon';
 import SelectedSlotsManager from './SelectedSlotsManager';
 
-const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => {
+const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }:any) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date(2025, 7));
   const [showTimezoneDropdown, setShowTimezoneDropdown] = useState(false);
-  const [bookedSlots, setBookedSlots] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState<any[]>([]);
   const [showValue, setShowValue] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [bufferEnabled, setBufferEnabled] = useState(false); // New state for buffer toggle
+  const [bufferEnabled, setBufferEnabled] = useState(false); 
 
   const MOCKAPI_URL = 'https://688f0331f21ab1769f87f43a.mockapi.io/engagements';
 
@@ -22,7 +22,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     { value: 'HT', label: 'HT' }, 
   ];
 
-  const getLuxonZone = (tz) => {
+  const getLuxonZone = (tz:any) => {
     switch (tz) {
       case 'ET': return 'America/New_York';
       case 'CT': return 'America/Chicago';
@@ -38,7 +38,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     setBookedSlots(stored);
   }, []);
 
-  const isSlotInBuffer = (slot) => {
+  const isSlotInBuffer = (slot:any) => {
     if (!bufferEnabled || bookedSlots.length === 0) return false;
 
     const slotTime = slot.toUTC();
@@ -52,7 +52,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
   };
 
 // New function to handle timezone changes and adjust selected date/time
-  const handleTimezoneChange = (newTimezone) => {
+  const handleTimezoneChange = (newTimezone:any) => {
     const oldTimezone = formData.timezone;
      onInputChange('timezone', newTimezone);     // Update the timezone first
 
@@ -60,7 +60,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     if (formData.selectedDate && formData.selectedTime && oldTimezone) {
       const oldZone = getLuxonZone(oldTimezone);
       const newZone = getLuxonZone(newTimezone);
-      
+      console.log("oldzone",oldZone)
       // Convert the selected time to the new timezone
       const selectedDateTime = LuxonDateTime.fromISO(formData.selectedTime);
       const convertedDateTime = selectedDateTime.setZone(newZone);
@@ -85,7 +85,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     setShowTimezoneDropdown(false);
   };
 
-  const changeMonth = (direction) => {
+  const changeMonth = (direction:any) => {
     setSelectedMonth(prev => {
       const newDate = new Date(prev);
       newDate.setMonth(prev.getMonth() + direction);
@@ -93,14 +93,14 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     });
   };
 
-  const selectDate = (day) => {
+  const selectDate = (day:any) => {
     const newDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day);
     onInputChange('selectedDate', newDate);
     onInputChange('selectedTime', null); 
   };
 
   // Enhanced handleSlotClick with complete data structure
-  const handleSlotClick = (slot) => {
+  const handleSlotClick = (slot:any) => {
     const slotUTC = slot.toUTC().toISO();
     onInputChange('selectedTime', slot.toISO());
 
@@ -125,12 +125,12 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
     setBookedSlots(updated);
   };
 
-  const isSlotBooked = (slot) => {
+  const isSlotBooked = (slot:any) => {
     const slotUTC = slot.toUTC().toISO();
     return bookedSlots.some(booked => booked.dateTimeUTC === slotUTC);
   };
 
-  const generateSlotsForDate = (date) => {
+  const generateSlotsForDate = (date:any) => {
     if (!date || !formData.timezone) return [];
 
     const zone = getLuxonZone(formData.timezone);
@@ -157,7 +157,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
       console.log('First 3 slots from localStorage:', firstThreeSlots);
 
      
-      const createCompleteSlot = (slotData, priority, id) => {
+      const createCompleteSlot = (slotData:any, priority:any, id:any) => {
         if (!slotData) return undefined;
         
         return {
@@ -221,7 +221,7 @@ const DateTime = ({ formData, onInputChange, onBack, engagementId, onNext }) => 
 
     } catch (error) {
       console.error('handleNext error:', error);
-      setError(error.message || 'Failed to save slots. Please try again.');
+      setError((error as Error).message || 'Failed to save slots. Please try again.');
     } finally {
       setLoading(false);
     }

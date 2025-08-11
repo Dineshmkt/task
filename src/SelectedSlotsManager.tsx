@@ -1,17 +1,17 @@
 
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Trash2, Clock, Calendar, AlertCircle } from 'lucide-react';
 import { DateTime as LuxonDateTime } from 'luxon';
 
-const SelectedSlotsManager = ({ onBack, onNext }) => {
-  const [selectedSlots, setSelectedSlots] = useState([]);
+const SelectedSlotsManager = ({ onBack, onNext }:any) => {
+  const [selectedSlots, setSelectedSlots] = useState<any[]>([]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('bookedSlots') || '[]');
     console.log('Loaded slots from localStorage:', data.slice(0,3));
     let storedSlots =  data.slice(0,3)
     // Assign priorities based on order (first = Primary, second = Secondary, third = Tertiary)
-    const slotsWithPriorities = storedSlots.map((slot, index) => ({
+    const slotsWithPriorities = storedSlots.map((slot:any, index:any) => ({
       ...slot,
       id: index + 1,
       priority: index === 0 ? 'Primary' : index === 1 ? 'Secondary' : 'Tertiary'
@@ -20,7 +20,7 @@ const SelectedSlotsManager = ({ onBack, onNext }) => {
     setSelectedSlots(slotsWithPriorities);
   }, []);
 
-  const deleteSlot = (indexToDelete) => {
+  const deleteSlot = (indexToDelete:any) => {
     const updatedSlots = selectedSlots.filter((_, index) => index !== indexToDelete);
 
     if (updatedSlots.length === 0) {
@@ -31,7 +31,7 @@ const SelectedSlotsManager = ({ onBack, onNext }) => {
     }
 
     // Reassign priorities after deletion (maintain order-based priority)
-    const reorderedSlots = updatedSlots.map((slot, index) => ({
+    const reorderedSlots = updatedSlots.map((slot:any, index) => ({
       ...slot,
       id: index + 1,
       priority: index === 0 ? 'Primary' : index === 1 ? 'Secondary' : 'Tertiary'
@@ -43,7 +43,7 @@ const SelectedSlotsManager = ({ onBack, onNext }) => {
 
 
 
-const getPriorityColor = (priority) => {
+const getPriorityColor = (priority:any) => {
   switch (priority) {
     case 'Primary':
       return 'border-[#BFDBFE] text-black'; 
@@ -57,7 +57,7 @@ const getPriorityColor = (priority) => {
 };
 
 
-  const getPriorityIcon = (priority) => {
+  const getPriorityIcon = (priority:any) => {
     switch (priority) {
       case 'Primary': return '';
       case 'Secondary': return '';
@@ -67,7 +67,7 @@ const getPriorityColor = (priority) => {
   };
  
 
-  const formatDateTime = (slot) => {
+  const formatDateTime = (slot:any) => {
  
     let dateTimeString = slot.dateTimeUTC || slot.selectedTime || slot.displayTime;
     

@@ -2,9 +2,33 @@ import { useState, useEffect } from "react";
 import MainEngagementCreator from "./MainEngagementCreator";
 import {  useNavigate } from "react-router-dom";
 
+interface EngagementSlot {
+  id: string | number;
+  engagementId?: string | number;
+  engagementOwner?: string;
+  owner?: string;
+  speaker?: string;
+  caterer?: string;
+  cohost?: string;
+  createdAt?: string;
+  priority?: string;
+  [key: string]: any;
+}
+
+interface GroupedEngagement {
+  id: string | number;
+  engagementOwner: string;
+  speaker: string;
+  caterer: string;
+  cohost: string;
+  createdAt?: string;
+  slots: EngagementSlot[];
+}
+
+
 const EngagementManager = () => {
   const [currentView, setCurrentView] = useState('list'); 
-  const [engagements, setEngagements] = useState([]);
+  const [engagements, setEngagements] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,11 +50,12 @@ const EngagementManager = () => {
       console.log('Fetched raw data:', data);
       
       
-      const groupedData = {};
-      
-      data.forEach(item => {
+      // const groupedData = {};
+      const groupedData: Record<string | number, GroupedEngagement | EngagementSlot> = {};
+
+      data.forEach((item:any) => {
         if (item.priority) {
-          const engagementId = item.engagementId || item.id; // Adjust based on your structure
+          const engagementId = item.engagementId || item.id; 
           
           if (!groupedData[engagementId]) {
             groupedData[engagementId] = {
@@ -46,7 +71,7 @@ const EngagementManager = () => {
           
           groupedData[engagementId].slots.push(item);
         } else {
-          if (!groupedData[item.id]) {       // This is a complete engagement record
+          if (!groupedData[item.id]) {       
             groupedData[item.id] = item;
           }
         }
@@ -69,12 +94,12 @@ const EngagementManager = () => {
   }, []);
 
  
-  const findSlotByPriority = (engagementData, priority) => { 
+  const findSlotByPriority = (engagementData:any, priority:any) => { 
     if (engagementData[priority.toLowerCase()]) {
       return engagementData[priority.toLowerCase()];
     }
     if (engagementData.slots && Array.isArray(engagementData.slots)) {
-      return engagementData.slots.find(slot => slot.priority === priority);
+      return engagementData.slots.find((slot:any) => slot.priority === priority);
     }
     if (engagementData.priority === priority) {
       return engagementData;
@@ -83,7 +108,7 @@ const EngagementManager = () => {
   };
 
   
-  const formatDateTime = (slotObject) => {
+  const formatDateTime = (slotObject:any) => {
     if (!slotObject || !slotObject.selectedDate || !slotObject.selectedTime ) {
       return (
         <span style={{ 
@@ -132,16 +157,16 @@ const EngagementManager = () => {
     setCurrentView('create');
   };
 
-  const handleBackToList = () => {
-    setCurrentView('list');
-    fetchEngagements();
-  };
+  // const handleBackToList = () => {
+  //   setCurrentView('list');
+  //   fetchEngagements();
+  // };
 
-  const handleSaveEngagement = (formData) => {
-    console.log('Engagement saved:', formData);
-    setCurrentView('list');
-    fetchEngagements();
-  };
+  // const handleSaveEngagement = (formData:any) => {
+  //   console.log('Engagement saved:', formData);
+  //   setCurrentView('list');
+  //   fetchEngagements();
+  // };
 
   const filteredEngagements = engagements.filter(eng =>
     Object.values(eng).some(val => {
@@ -155,8 +180,9 @@ const EngagementManager = () => {
   );
 
   if (currentView === 'create') {
-    return <MainEngagementCreator onBack={handleBackToList} onSave={handleSaveEngagement} />;
+    return <MainEngagementCreator  />;
   }
+  //onBack={handleBackToList} onSave={handleSaveEngagement}
 
   return (
     <div style={{ padding: '20px', background: '#f5f5f5', minHeight: '100vh' }}>
@@ -347,7 +373,7 @@ const EngagementManager = () => {
             {loading ? (
               <tr>
                 <td 
-                  colSpan="9" 
+                  colSpan={9}
                   style={{ 
                     textAlign: 'center', 
                     padding: '40px', 
@@ -361,7 +387,7 @@ const EngagementManager = () => {
             ) : filteredEngagements.length === 0 ? (
               <tr>
                 <td 
-                  colSpan="9" 
+                  colSpan={9} 
                   style={{ 
                     textAlign: 'center', 
                     padding: '40px', 

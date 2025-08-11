@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Calendar, Clock, User, Phone, Mail, Target } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Phone, Mail } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 const EngagementDetails = () => {
   
  const {id}=useParams()
-  const [engagement, setEngagement] = useState(null);
+  const [engagement, setEngagement] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
@@ -38,7 +38,7 @@ const EngagementDetails = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...engagement,
+          ...engagement ?? {},
           status: 'Approved'
         }),
       });
